@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,6 +19,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  *
@@ -42,10 +45,10 @@ public class Usine implements Serializable {
     private String nomusine;
     @Column(name = "Code_usine")
     private String codeusine;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idusinerecep")
-    private Collection<Reception> receptionCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idusinedest")
-    private Collection<Reception> destinationCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idusinerecep", fetch = FetchType.LAZY)
+    private Collection<Reception> receptions;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idusineexp", fetch = FetchType.LAZY)
+    private Collection<Reception> expeditions;
 
     public Usine() {
     }
@@ -78,21 +81,24 @@ public class Usine implements Serializable {
         this.codeusine = codeusine;
     }
 
-    public Collection<Reception> getReceptionCollection() {
-        return receptionCollection;
-    }
+    @JsonIgnore
+   	public Collection<Reception> getReceptions() {
+   		return receptions;
+   	}
 
-    public void setReceptionCollection(Collection<Reception> receptionCollection) {
-        this.receptionCollection = receptionCollection;
-    }
+   	public void setReceptions(Collection<Reception> receptions) {
+   		this.receptions = receptions;
+   	}
 
-    public Collection<Reception> getReceptionCollection1() {
-        return destinationCollection;
-    }
+   	@JsonIgnore
+   	public Collection<Reception> getExpeditions() {
+   		return expeditions;
+   	}
 
-    public void setReceptionCollection1(Collection<Reception> receptionCollection1) {
-        this.destinationCollection = receptionCollection1;
-    }
+   	public void setExpeditions(Collection<Reception> expeditions) {
+   		this.expeditions = expeditions;
+   	}
+    
 
     @Override
     public int hashCode() {
@@ -118,5 +124,7 @@ public class Usine implements Serializable {
     public String toString() {
         return "com.sdcc.gpao.entity.Usine[ idusine=" + idusine + " ]";
     }
+
+   
     
 }

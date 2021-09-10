@@ -6,7 +6,9 @@
 package com.sdcc.gpao.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,8 +20,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  *
@@ -38,12 +38,15 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "Reception.findByPoidnetexp", query = "SELECT r FROM Reception r WHERE r.poidnetexp = :poidnetexp"),
     @NamedQuery(name = "Reception.findByPoidsbrutrec", query = "SELECT r FROM Reception r WHERE r.poidsbrutrec = :poidsbrutrec"),
     @NamedQuery(name = "Reception.findByPoidsnetrec", query = "SELECT r FROM Reception r WHERE r.poidsnetrec = :poidsnetrec"),
+    @NamedQuery(name = "Reception.findByDatesortie", query = "SELECT r FROM Reception r WHERE r.datesortie = :datesortie"),
     @NamedQuery(name = "Reception.findByHeuredebdech", query = "SELECT r FROM Reception r WHERE r.heuredebdech = :heuredebdech"),
     @NamedQuery(name = "Reception.findByHeurefindech", query = "SELECT r FROM Reception r WHERE r.heurefindech = :heurefindech"),
+    @NamedQuery(name = "Reception.findByDatedech", query = "SELECT r FROM Reception r WHERE r.datedech = :datedech"),
     @NamedQuery(name = "Reception.findByNumcaisse1", query = "SELECT r FROM Reception r WHERE r.numcaisse1 = :numcaisse1"),
     @NamedQuery(name = "Reception.findByNumcaisse2", query = "SELECT r FROM Reception r WHERE r.numcaisse2 = :numcaisse2"),
     @NamedQuery(name = "Reception.findByTauxhumidite", query = "SELECT r FROM Reception r WHERE r.tauxhumidite = :tauxhumidite"),
-    @NamedQuery(name = "Reception.findByTauxacidite", query = "SELECT r FROM Reception r WHERE r.tauxacidite = :tauxacidite")})
+    @NamedQuery(name = "Reception.findByTauxacidite", query = "SELECT r FROM Reception r WHERE r.tauxacidite = :tauxacidite"),
+    @NamedQuery(name = "Reception.findByValidated", query = "SELECT r FROM Reception r WHERE r.validated = :validated")})
 public class Reception implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -52,11 +55,14 @@ public class Reception implements Serializable {
     @Basic(optional = false)
     @Column(name = "Id_reception")
     private Integer idreception;
+    @Basic(optional = false)
     @Column(name = "Date_reception")
-    @Temporal(TemporalType.DATE)
-    private Date datereception;
+    //@Temporal(TemporalType.DATE)
+    private LocalDate datereception;
+    @Basic(optional = false)
     @Column(name = "Num_bordereau")
     private String numbordereau;
+    @Basic(optional = false)
     @Column(name = "Num_vehicule")
     private String numvehicule;
     @Column(name = "Transporteur")
@@ -64,33 +70,37 @@ public class Reception implements Serializable {
     @Basic(optional = false)
     @Column(name = "Poids_brute_exp")
     private int poidsbruteexp;
-    @Basic(optional = false)
     @Column(name = "Poid_net_exp")
-    private int poidnetexp;
-    @Basic(optional = false)
+    private Integer poidnetexp;
     @Column(name = "Poids_brut_rec")
-    private int poidsbrutrec;
-    @Basic(optional = false)
+    private Integer poidsbrutrec;
     @Column(name = "Poids_net_rec")
-    private int poidsnetrec;
+    private Integer poidsnetrec;
+    @Column(name = "Date_sortie")
+    //@Temporal(TemporalType.DATE)
+    private LocalDate datesortie;
     @Column(name = "Heure_deb_dech")
-    @Temporal(TemporalType.TIME)
-    private Date heuredebdech;
+    //@Temporal(TemporalType.TIME)
+    private LocalTime heuredebdech;
     @Column(name = "Heure_fin_dech")
-    @Temporal(TemporalType.TIME)
-    private Date heurefindech;
+    //@Temporal(TemporalType.TIME)
+    private LocalTime heurefindech;
+    @Column(name = "Date_dech")
+    //@Temporal(TemporalType.DATE)
+    private LocalDate datedech;
     @Column(name = "Num_caisse1")
     private String numcaisse1;
     @Column(name = "Num_caisse2")
     private String numcaisse2;
-    @Basic(optional = false)
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "Taux_humidite")
-    private float tauxhumidite;
-    @Basic(optional = false)
+    private Float tauxhumidite;
     @Column(name = "Taux_acidite")
-    private float tauxacidite;
+    private Float tauxacidite;
+    @Column(name = "Validated")
+    private Boolean validated;
     @JoinColumn(name = "Id_chauffeur", referencedColumnName = "Id_chauffeur")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Chauffeur idchauffeur;
     @JoinColumn(name = "Id_personnel", referencedColumnName = "Id_personnel")
     @ManyToOne
@@ -98,9 +108,9 @@ public class Reception implements Serializable {
     @JoinColumn(name = "Id_usine_recep", referencedColumnName = "Id_usine")
     @ManyToOne(optional = false)
     private Usine idusinerecep;
-    @JoinColumn(name = "Id_usine_dest", referencedColumnName = "Id_usine")
+    @JoinColumn(name = "Id_usine_exp", referencedColumnName = "Id_usine")
     @ManyToOne(optional = false)
-    private Usine idusinedest;
+    private Usine idusineexp;
 
     public Reception() {
     }
@@ -109,14 +119,12 @@ public class Reception implements Serializable {
         this.idreception = idreception;
     }
 
-    public Reception(Integer idreception, int poidsbruteexp, int poidnetexp, int poidsbrutrec, int poidsnetrec, float tauxhumidite, float tauxacidite) {
+    public Reception(Integer idreception, LocalDate datereception, String numbordereau, String numvehicule, int poidsbruteexp) {
         this.idreception = idreception;
+        this.datereception = datereception;
+        this.numbordereau = numbordereau;
+        this.numvehicule = numvehicule;
         this.poidsbruteexp = poidsbruteexp;
-        this.poidnetexp = poidnetexp;
-        this.poidsbrutrec = poidsbrutrec;
-        this.poidsnetrec = poidsnetrec;
-        this.tauxhumidite = tauxhumidite;
-        this.tauxacidite = tauxacidite;
     }
 
     public Integer getIdreception() {
@@ -127,11 +135,11 @@ public class Reception implements Serializable {
         this.idreception = idreception;
     }
 
-    public Date getDatereception() {
+    public LocalDate getDatereception() {
         return datereception;
     }
 
-    public void setDatereception(Date datereception) {
+    public void setDatereception(LocalDate datereception) {
         this.datereception = datereception;
     }
 
@@ -167,44 +175,60 @@ public class Reception implements Serializable {
         this.poidsbruteexp = poidsbruteexp;
     }
 
-    public int getPoidnetexp() {
+    public Integer getPoidnetexp() {
         return poidnetexp;
     }
 
-    public void setPoidnetexp(int poidnetexp) {
+    public void setPoidnetexp(Integer poidnetexp) {
         this.poidnetexp = poidnetexp;
     }
 
-    public int getPoidsbrutrec() {
+    public Integer getPoidsbrutrec() {
         return poidsbrutrec;
     }
 
-    public void setPoidsbrutrec(int poidsbrutrec) {
+    public void setPoidsbrutrec(Integer poidsbrutrec) {
         this.poidsbrutrec = poidsbrutrec;
     }
 
-    public int getPoidsnetrec() {
+    public Integer getPoidsnetrec() {
         return poidsnetrec;
     }
 
-    public void setPoidsnetrec(int poidsnetrec) {
+    public void setPoidsnetrec(Integer poidsnetrec) {
         this.poidsnetrec = poidsnetrec;
     }
 
-    public Date getHeuredebdech() {
+    public LocalDate getDatesortie() {
+        return datesortie;
+    }
+
+    public void setDatesortie(LocalDate datesortie) {
+        this.datesortie = datesortie;
+    }
+
+    public LocalTime getHeuredebdech() {
         return heuredebdech;
     }
 
-    public void setHeuredebdech(Date heuredebdech) {
+    public void setHeuredebdech(LocalTime heuredebdech) {
         this.heuredebdech = heuredebdech;
     }
 
-    public Date getHeurefindech() {
+    public LocalTime getHeurefindech() {
         return heurefindech;
     }
 
-    public void setHeurefindech(Date heurefindech) {
+    public void setHeurefindech(LocalTime heurefindech) {
         this.heurefindech = heurefindech;
+    }
+
+    public LocalDate getDatedech() {
+        return datedech;
+    }
+
+    public void setDatedech(LocalDate datedech) {
+        this.datedech = datedech;
     }
 
     public String getNumcaisse1() {
@@ -223,20 +247,28 @@ public class Reception implements Serializable {
         this.numcaisse2 = numcaisse2;
     }
 
-    public float getTauxhumidite() {
+    public Float getTauxhumidite() {
         return tauxhumidite;
     }
 
-    public void setTauxhumidite(float tauxhumidite) {
+    public void setTauxhumidite(Float tauxhumidite) {
         this.tauxhumidite = tauxhumidite;
     }
 
-    public float getTauxacidite() {
+    public Float getTauxacidite() {
         return tauxacidite;
     }
 
-    public void setTauxacidite(float tauxacidite) {
+    public void setTauxacidite(Float tauxacidite) {
         this.tauxacidite = tauxacidite;
+    }
+
+    public Boolean getValidated() {
+        return validated;
+    }
+
+    public void setValidated(Boolean validated) {
+        this.validated = validated;
     }
 
     public Chauffeur getIdchauffeur() {
@@ -263,15 +295,15 @@ public class Reception implements Serializable {
         this.idusinerecep = idusinerecep;
     }
 
-    public Usine getIdusinedest() {
-        return idusinedest;
-    }
+    public Usine getIdusineexp() {
+		return idusineexp;
+	}
 
-    public void setIdusinedest(Usine idusinedest) {
-        this.idusinedest = idusinedest;
-    }
+	public void setIdusineexp(Usine idusineexp) {
+		this.idusineexp = idusineexp;
+	}
 
-    @Override
+	@Override
     public int hashCode() {
         int hash = 0;
         hash += (idreception != null ? idreception.hashCode() : 0);

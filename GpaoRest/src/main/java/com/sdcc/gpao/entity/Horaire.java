@@ -8,11 +8,11 @@ package com.sdcc.gpao.entity;
 import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.Collection;
-//import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,8 +20,9 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-//import javax.persistence.Temporal;
-//import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  *
@@ -33,7 +34,8 @@ import javax.persistence.Table;
     @NamedQuery(name = "Horaire.findAll", query = "SELECT h FROM Horaire h"),
     @NamedQuery(name = "Horaire.findByIdhoraire", query = "SELECT h FROM Horaire h WHERE h.idhoraire = :idhoraire"),
     @NamedQuery(name = "Horaire.findByHeuredebut", query = "SELECT h FROM Horaire h WHERE h.heuredebut = :heuredebut"),
-    @NamedQuery(name = "Horaire.findByHeurefin", query = "SELECT h FROM Horaire h WHERE h.heurefin = :heurefin")})
+    @NamedQuery(name = "Horaire.findByHeurefin", query = "SELECT h FROM Horaire h WHERE h.heurefin = :heurefin"),
+    @NamedQuery(name = "Horaire.findByOrdre", query = "SELECT h FROM Horaire h WHERE h.ordre = :ordre")})
 public class Horaire implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,22 +44,37 @@ public class Horaire implements Serializable {
     @Basic(optional = false)
     @Column(name = "Id_horaire")
     private Integer idhoraire;
+    @Basic(optional = false)
     @Column(name = "Heure_debut")
     //@Temporal(TemporalType.TIME)
     private LocalTime heuredebut;
+    @Basic(optional = false)
     @Column(name = "Heure_fin")
     //@Temporal(TemporalType.TIME)
     private LocalTime heurefin;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idhoraire")
+    @Column(name = "Ordre")
+    private Integer ordre;
+    //@JsonIgnoreProperties("idhoraire")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idhoraire", fetch = FetchType.LAZY)
     private Collection<ParamNettoyageD> paramNettoyageDCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idhoraire")
+    //@JsonIgnoreProperties("idhoraire")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idhoraire", fetch = FetchType.LAZY)
     private Collection<Planning> planningCollection;
+    //@JsonIgnoreProperties("horaire")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "horaire", fetch = FetchType.LAZY)
+    private Collection<ParamPlanning> paramPlanningCollection;
 
     public Horaire() {
     }
 
     public Horaire(Integer idhoraire) {
         this.idhoraire = idhoraire;
+    }
+
+    public Horaire(Integer idhoraire, LocalTime heuredebut, LocalTime heurefin) {
+        this.idhoraire = idhoraire;
+        this.heuredebut = heuredebut;
+        this.heurefin = heurefin;
     }
 
     public Integer getIdhoraire() {
@@ -84,6 +101,15 @@ public class Horaire implements Serializable {
         this.heurefin = heurefin;
     }
 
+    public Integer getOrdre() {
+        return ordre;
+    }
+
+    public void setOrdre(Integer ordre) {
+        this.ordre = ordre;
+    }
+
+    @JsonIgnore
     public Collection<ParamNettoyageD> getParamNettoyageDCollection() {
         return paramNettoyageDCollection;
     }
@@ -92,12 +118,22 @@ public class Horaire implements Serializable {
         this.paramNettoyageDCollection = paramNettoyageDCollection;
     }
 
+    @JsonIgnore
     public Collection<Planning> getPlanningCollection() {
         return planningCollection;
     }
 
     public void setPlanningCollection(Collection<Planning> planningCollection) {
         this.planningCollection = planningCollection;
+    }
+
+    @JsonIgnore
+    public Collection<ParamPlanning> getParamPlanningCollection() {
+        return paramPlanningCollection;
+    }
+
+    public void setParamPlanningCollection(Collection<ParamPlanning> paramPlanningCollection) {
+        this.paramPlanningCollection = paramPlanningCollection;
     }
 
     @Override

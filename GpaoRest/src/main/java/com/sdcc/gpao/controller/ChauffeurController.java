@@ -13,39 +13,40 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sdcc.gpao.entity.Quart;
+import com.sdcc.gpao.entity.Chauffeur;
 import com.sdcc.gpao.exception.ResourceNotFoundException;
-import com.sdcc.gpao.service.QuartService;
+import com.sdcc.gpao.service.ChauffeurService;
 
 @RestController
-@RequestMapping("/api/quart/")
-public class QuartController {
-	@Autowired
-	private QuartService quartService;
+@RequestMapping("/api/chauffeur/")
+public class ChauffeurController {
 
+	@Autowired
+	private ChauffeurService chauffeurService;
+	
 	@GetMapping("/liste")
-	public ResponseEntity<Collection<Quart>> getListe(){
-		return quartService.getListe();
+	public ResponseEntity<Collection<Chauffeur>> getListe(){
+		return chauffeurService.getListe();
 	}
 	
 	@GetMapping("/liste/{id}") 
-	public ResponseEntity<Quart> geElement(@PathVariable(value = "id")int id) throws ResourceNotFoundException
+	public ResponseEntity<Chauffeur> geElement(@PathVariable(value = "id")int id) throws ResourceNotFoundException
 	{
-		return quartService.getElement(id);
+		return chauffeurService.getElement(id);
 	}
 	
 	@PostMapping("/ajouter")
-	public ResponseEntity<Quart> ajouter(@RequestBody Quart eg){
-		return quartService.sauvegarder(eg);
+	public ResponseEntity<Chauffeur> ajouter(@RequestBody Chauffeur eg){
+		return chauffeurService.sauvegarder(eg);
 	}
 	
 	@PutMapping("/modifier")
-	public ResponseEntity<Quart> modifier(@RequestBody Quart eg) throws ResourceNotFoundException{
-		return quartService.modifier(eg);
+	public ResponseEntity<Chauffeur> modifier(@RequestBody Chauffeur eg) throws ResourceNotFoundException{
+		return chauffeurService.modifier(eg);
 	}
 	
 	@DeleteMapping("/supprimer")
-	public void supprimer(@RequestBody Quart eg) throws ResourceNotFoundException{
-		quartService.supprimer(eg);
+	public void supprimer(@RequestBody Chauffeur eg) throws ResourceNotFoundException{
+		chauffeurService.supprimer(eg);
 	}
 }

@@ -10,6 +10,7 @@ import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,6 +20,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  *
@@ -47,19 +50,19 @@ public class Personnel implements Serializable {
     private String matricule;
     @Column(name = "Fonction")
     private String fonction;
-    @OneToMany(mappedBy = "idpersonnel")
-    private Collection<ParamNettoyageD> paramNettoyageDCollection;
-    @OneToMany(mappedBy = "idpersonnel")
-    private Collection<AnalyseNettPressPell> analyseNettPressPellCollection;
-    @OneToMany(mappedBy = "idpersonnel")
-    private Collection<Reception> receptionCollection;
-    @OneToMany(mappedBy = "idpersonnel")
-    private Collection<NettoyageD> nettoyageDCollection;
-    @JoinColumn(name = "Id_quart", referencedColumnName = "Id_quart")
-    @ManyToOne
-    private Quart idquart;
-    @OneToMany(mappedBy = "idpersonnel")
+    @OneToMany(mappedBy = "idpersonnel", fetch = FetchType.LAZY)
     private Collection<ActiviteNettoyageD> activiteNettoyageDCollection;
+    @OneToMany(mappedBy = "idpersonnel", fetch = FetchType.LAZY)
+    private Collection<Reception> receptionCollection;
+    @OneToMany(mappedBy = "idpersonnel", fetch = FetchType.LAZY)
+    private Collection<ParamNettoyageD> paramNettoyageDCollection;
+    @JoinColumn(name = "Id_quart", referencedColumnName = "Id_quart")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Quart idquart;
+    @OneToMany(mappedBy = "idpersonnel", fetch = FetchType.LAZY)
+    private Collection<AnalyseNettPressPell> analyseNettPressPellCollection;
+    @OneToMany(mappedBy = "idpersonnel", fetch = FetchType.LAZY)
+    private Collection<NettoyageD> nettoyageDCollection;
 
     public Personnel() {
     }
@@ -105,22 +108,16 @@ public class Personnel implements Serializable {
         this.fonction = fonction;
     }
 
-    public Collection<ParamNettoyageD> getParamNettoyageDCollection() {
-        return paramNettoyageDCollection;
+    @JsonIgnore
+    public Collection<ActiviteNettoyageD> getActiviteNettoyageDCollection() {
+        return activiteNettoyageDCollection;
     }
 
-    public void setParamNettoyageDCollection(Collection<ParamNettoyageD> paramNettoyageDCollection) {
-        this.paramNettoyageDCollection = paramNettoyageDCollection;
+    public void setActiviteNettoyageDCollection(Collection<ActiviteNettoyageD> activiteNettoyageDCollection) {
+        this.activiteNettoyageDCollection = activiteNettoyageDCollection;
     }
 
-    public Collection<AnalyseNettPressPell> getAnalyseNettPressPellCollection() {
-        return analyseNettPressPellCollection;
-    }
-
-    public void setAnalyseNettPressPellCollection(Collection<AnalyseNettPressPell> analyseNettPressPellCollection) {
-        this.analyseNettPressPellCollection = analyseNettPressPellCollection;
-    }
-
+    @JsonIgnore
     public Collection<Reception> getReceptionCollection() {
         return receptionCollection;
     }
@@ -129,12 +126,13 @@ public class Personnel implements Serializable {
         this.receptionCollection = receptionCollection;
     }
 
-    public Collection<NettoyageD> getNettoyageDCollection() {
-        return nettoyageDCollection;
+    @JsonIgnore
+    public Collection<ParamNettoyageD> getParamNettoyageDCollection() {
+        return paramNettoyageDCollection;
     }
 
-    public void setNettoyageDCollection(Collection<NettoyageD> nettoyageDCollection) {
-        this.nettoyageDCollection = nettoyageDCollection;
+    public void setParamNettoyageDCollection(Collection<ParamNettoyageD> paramNettoyageDCollection) {
+        this.paramNettoyageDCollection = paramNettoyageDCollection;
     }
 
     public Quart getIdquart() {
@@ -145,12 +143,22 @@ public class Personnel implements Serializable {
         this.idquart = idquart;
     }
 
-    public Collection<ActiviteNettoyageD> getActiviteNettoyageDCollection() {
-        return activiteNettoyageDCollection;
+    @JsonIgnore
+    public Collection<AnalyseNettPressPell> getAnalyseNettPressPellCollection() {
+        return analyseNettPressPellCollection;
     }
 
-    public void setActiviteNettoyageDCollection(Collection<ActiviteNettoyageD> activiteNettoyageDCollection) {
-        this.activiteNettoyageDCollection = activiteNettoyageDCollection;
+    public void setAnalyseNettPressPellCollection(Collection<AnalyseNettPressPell> analyseNettPressPellCollection) {
+        this.analyseNettPressPellCollection = analyseNettPressPellCollection;
+    }
+
+    @JsonIgnore
+    public Collection<NettoyageD> getNettoyageDCollection() {
+        return nettoyageDCollection;
+    }
+
+    public void setNettoyageDCollection(Collection<NettoyageD> nettoyageDCollection) {
+        this.nettoyageDCollection = nettoyageDCollection;
     }
 
     @Override

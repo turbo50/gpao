@@ -1,12 +1,12 @@
 package com.sdcc.gpao.repository;
 
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.sdcc.gpao.entity.Horaire;
+import com.sdcc.gpao.entity.Chauffeur;
 
 
 @Repository
-public interface IHoraireRepository extends JpaRepository<Horaire, Integer> {
+public interface IChauffeurRepository extends JpaRepository<Chauffeur, Integer> {
+
 }

@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,6 +19,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  *
@@ -39,10 +42,12 @@ public class Quart implements Serializable {
     private Integer idquart;
     @Column(name = "Nom_quart")
     private String nomquart;
-    @OneToMany(mappedBy = "idquart")
+    @OneToMany(mappedBy = "idquart", fetch = FetchType.LAZY)
     private Collection<Personnel> personnelCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idquart")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idquart", fetch = FetchType.LAZY)
     private Collection<Planning> planningCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idquart", fetch = FetchType.LAZY)
+    private Collection<ParamPlanning> paramPlanningCollection;
 
     public Quart() {
     }
@@ -67,6 +72,7 @@ public class Quart implements Serializable {
         this.nomquart = nomquart;
     }
 
+    @JsonIgnore
     public Collection<Personnel> getPersonnelCollection() {
         return personnelCollection;
     }
@@ -75,12 +81,22 @@ public class Quart implements Serializable {
         this.personnelCollection = personnelCollection;
     }
 
+    @JsonIgnore
     public Collection<Planning> getPlanningCollection() {
         return planningCollection;
     }
 
     public void setPlanningCollection(Collection<Planning> planningCollection) {
         this.planningCollection = planningCollection;
+    }
+
+    @JsonIgnore
+    public Collection<ParamPlanning> getParamPlanningCollection() {
+        return paramPlanningCollection;
+    }
+
+    public void setParamPlanningCollection(Collection<ParamPlanning> paramPlanningCollection) {
+        this.paramPlanningCollection = paramPlanningCollection;
     }
 
     @Override

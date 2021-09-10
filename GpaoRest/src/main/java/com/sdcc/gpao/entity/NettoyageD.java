@@ -27,7 +27,8 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "NettoyageD.findAll", query = "SELECT n FROM NettoyageD n"),
     @NamedQuery(name = "NettoyageD.findByIdnettoyaged", query = "SELECT n FROM NettoyageD n WHERE n.idnettoyaged = :idnettoyaged"),
-    @NamedQuery(name = "NettoyageD.findByIndexbande", query = "SELECT n FROM NettoyageD n WHERE n.indexbande = :indexbande"),
+    @NamedQuery(name = "NettoyageD.findByIndexbandeinit", query = "SELECT n FROM NettoyageD n WHERE n.indexbandeinit = :indexbandeinit"),
+    @NamedQuery(name = "NettoyageD.findByIndexbandefinal", query = "SELECT n FROM NettoyageD n WHERE n.indexbandefinal = :indexbandefinal"),
     @NamedQuery(name = "NettoyageD.findByValidated", query = "SELECT n FROM NettoyageD n WHERE n.validated = :validated")})
 public class NettoyageD implements Serializable {
 
@@ -38,8 +39,11 @@ public class NettoyageD implements Serializable {
     @Column(name = "Id_nettoyage_d")
     private Integer idnettoyaged;
     @Basic(optional = false)
-    @Column(name = "Index_bande")
-    private int indexbande;
+    @Column(name = "Index_bande_init")
+    private long indexbandeinit;
+    @Basic(optional = false)
+    @Column(name = "Index_bande_final")
+    private long indexbandefinal;
     @Basic(optional = false)
     @Column(name = "Validated")
     private boolean validated;
@@ -57,9 +61,10 @@ public class NettoyageD implements Serializable {
         this.idnettoyaged = idnettoyaged;
     }
 
-    public NettoyageD(Integer idnettoyaged, int indexbande, boolean validated) {
+    public NettoyageD(Integer idnettoyaged, long indexbandeinit, long indexbandefinal, boolean validated) {
         this.idnettoyaged = idnettoyaged;
-        this.indexbande = indexbande;
+        this.indexbandeinit = indexbandeinit;
+        this.indexbandefinal = indexbandefinal;
         this.validated = validated;
     }
 
@@ -71,12 +76,20 @@ public class NettoyageD implements Serializable {
         this.idnettoyaged = idnettoyaged;
     }
 
-    public int getIndexbande() {
-        return indexbande;
+    public long getIndexbandeinit() {
+        return indexbandeinit;
     }
 
-    public void setIndexbande(int indexbande) {
-        this.indexbande = indexbande;
+    public void setIndexbandeinit(long indexbandeinit) {
+        this.indexbandeinit = indexbandeinit;
+    }
+
+    public long getIndexbandefinal() {
+        return indexbandefinal;
+    }
+
+    public void setIndexbandefinal(long indexbandefinal) {
+        this.indexbandefinal = indexbandefinal;
     }
 
     public boolean getValidated() {

@@ -9,6 +9,7 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -104,10 +105,10 @@ public class AnalyseNettPressPell implements Serializable {
     @Column(name = "Pellet")
     private float pellet;
     @JoinColumn(name = "Id_personnel", referencedColumnName = "Id_personnel")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Personnel idpersonnel;
     @JoinColumn(name = "Id_planning", referencedColumnName = "Id_planning")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Planning idplanning;
 
     public AnalyseNettPressPell() {

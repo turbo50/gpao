@@ -6,12 +6,13 @@
 package com.sdcc.gpao.entity;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Collection;
-import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,8 +22,9 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  *
@@ -44,15 +46,21 @@ public class Planning implements Serializable {
     @Column(name = "Id_planning")
     private Integer idplanning;
     @Column(name = "Date_planning")
-    @Temporal(TemporalType.DATE)
-    private Date dateplanning;
+    //@Temporal(TemporalType.DATE)
+    private LocalDate dateplanning;
     @Column(name = "Statut")
     private String statut;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idplanning")
+    //@JsonIgnoreProperties("idplanning")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idplanning", fetch = FetchType.LAZY)
+    private Collection<ActiviteNettoyageD> activiteNettoyageDCollection;
+   // @JsonIgnoreProperties("idplanning")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idplanning", fetch = FetchType.LAZY)
     private Collection<ParamNettoyageD> paramNettoyageDCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idplanning")
+   // @JsonIgnoreProperties("idplanning")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idplanning", fetch = FetchType.LAZY)
     private Collection<AnalyseNettPressPell> analyseNettPressPellCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idplanning")
+   // @JsonIgnoreProperties("idplanning")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idplanning", fetch = FetchType.LAZY)
     private Collection<NettoyageD> nettoyageDCollection;
     @JoinColumn(name = "Id_horaire", referencedColumnName = "Id_horaire")
     @ManyToOne(optional = false)
@@ -60,8 +68,6 @@ public class Planning implements Serializable {
     @JoinColumn(name = "Id_quart", referencedColumnName = "Id_quart")
     @ManyToOne(optional = false)
     private Quart idquart;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idplanning")
-    private Collection<ActiviteNettoyageD> activiteNettoyageDCollection;
 
     public Planning() {
     }
@@ -78,11 +84,11 @@ public class Planning implements Serializable {
         this.idplanning = idplanning;
     }
 
-    public Date getDateplanning() {
+    public LocalDate getDateplanning() {
         return dateplanning;
     }
 
-    public void setDateplanning(Date dateplanning) {
+    public void setDateplanning(LocalDate dateplanning) {
         this.dateplanning = dateplanning;
     }
 
@@ -94,6 +100,16 @@ public class Planning implements Serializable {
         this.statut = statut;
     }
 
+    @JsonIgnore
+    public Collection<ActiviteNettoyageD> getActiviteNettoyageDCollection() {
+        return activiteNettoyageDCollection;
+    }
+
+    public void setActiviteNettoyageDCollection(Collection<ActiviteNettoyageD> activiteNettoyageDCollection) {
+        this.activiteNettoyageDCollection = activiteNettoyageDCollection;
+    }
+
+    @JsonIgnore
     public Collection<ParamNettoyageD> getParamNettoyageDCollection() {
         return paramNettoyageDCollection;
     }
@@ -102,6 +118,7 @@ public class Planning implements Serializable {
         this.paramNettoyageDCollection = paramNettoyageDCollection;
     }
 
+    @JsonIgnore
     public Collection<AnalyseNettPressPell> getAnalyseNettPressPellCollection() {
         return analyseNettPressPellCollection;
     }
@@ -110,6 +127,7 @@ public class Planning implements Serializable {
         this.analyseNettPressPellCollection = analyseNettPressPellCollection;
     }
 
+    @JsonIgnore
     public Collection<NettoyageD> getNettoyageDCollection() {
         return nettoyageDCollection;
     }
@@ -132,14 +150,6 @@ public class Planning implements Serializable {
 
     public void setIdquart(Quart idquart) {
         this.idquart = idquart;
-    }
-
-    public Collection<ActiviteNettoyageD> getActiviteNettoyageDCollection() {
-        return activiteNettoyageDCollection;
-    }
-
-    public void setActiviteNettoyageDCollection(Collection<ActiviteNettoyageD> activiteNettoyageDCollection) {
-        this.activiteNettoyageDCollection = activiteNettoyageDCollection;
     }
 
     @Override

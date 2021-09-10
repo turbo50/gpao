@@ -13,39 +13,40 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sdcc.gpao.entity.Quart;
+import com.sdcc.gpao.entity.Reception;
 import com.sdcc.gpao.exception.ResourceNotFoundException;
-import com.sdcc.gpao.service.QuartService;
+import com.sdcc.gpao.service.ReceptionService;
 
 @RestController
-@RequestMapping("/api/quart/")
-public class QuartController {
-	@Autowired
-	private QuartService quartService;
+@RequestMapping("/api/reception/")
+public class ReceptionController {
 
+	@Autowired
+	private ReceptionService receptionService;
+	
 	@GetMapping("/liste")
-	public ResponseEntity<Collection<Quart>> getListe(){
-		return quartService.getListe();
+	public ResponseEntity<Collection<Reception>> getListe(){
+		return receptionService.getListe();
 	}
 	
 	@GetMapping("/liste/{id}") 
-	public ResponseEntity<Quart> geElement(@PathVariable(value = "id")int id) throws ResourceNotFoundException
+	public ResponseEntity<Reception> geElement(@PathVariable(value = "id")int id) throws ResourceNotFoundException
 	{
-		return quartService.getElement(id);
+		return receptionService.getElement(id);
 	}
 	
 	@PostMapping("/ajouter")
-	public ResponseEntity<Quart> ajouter(@RequestBody Quart eg){
-		return quartService.sauvegarder(eg);
+	public ResponseEntity<Reception> ajouter(@RequestBody Reception eg){
+		return receptionService.sauvegarder(eg);
 	}
 	
 	@PutMapping("/modifier")
-	public ResponseEntity<Quart> modifier(@RequestBody Quart eg) throws ResourceNotFoundException{
-		return quartService.modifier(eg);
+	public ResponseEntity<Reception> modifier(@RequestBody Reception eg) throws ResourceNotFoundException{
+		return receptionService.modifier(eg);
 	}
 	
 	@DeleteMapping("/supprimer")
-	public void supprimer(@RequestBody Quart eg) throws ResourceNotFoundException{
-		quartService.supprimer(eg);
+	public void supprimer(@RequestBody Reception eg) throws ResourceNotFoundException{
+		receptionService.supprimer(eg);
 	}
 }
