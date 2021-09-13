@@ -12,7 +12,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,7 +21,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  *
@@ -54,14 +52,11 @@ public class Horaire implements Serializable {
     private LocalTime heurefin;
     @Column(name = "Ordre")
     private Integer ordre;
-    //@JsonIgnoreProperties("idhoraire")
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idhoraire", fetch = FetchType.LAZY)
-    private Collection<ParamNettoyageD> paramNettoyageDCollection;
-    //@JsonIgnoreProperties("idhoraire")
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idhoraire", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idhoraire")
+    @JsonIgnore
     private Collection<Planning> planningCollection;
-    //@JsonIgnoreProperties("horaire")
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "horaire", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "horaire")
+    @JsonIgnore
     private Collection<ParamPlanning> paramPlanningCollection;
 
     public Horaire() {
@@ -109,16 +104,6 @@ public class Horaire implements Serializable {
         this.ordre = ordre;
     }
 
-    @JsonIgnore
-    public Collection<ParamNettoyageD> getParamNettoyageDCollection() {
-        return paramNettoyageDCollection;
-    }
-
-    public void setParamNettoyageDCollection(Collection<ParamNettoyageD> paramNettoyageDCollection) {
-        this.paramNettoyageDCollection = paramNettoyageDCollection;
-    }
-
-    @JsonIgnore
     public Collection<Planning> getPlanningCollection() {
         return planningCollection;
     }
@@ -127,7 +112,6 @@ public class Horaire implements Serializable {
         this.planningCollection = planningCollection;
     }
 
-    @JsonIgnore
     public Collection<ParamPlanning> getParamPlanningCollection() {
         return paramPlanningCollection;
     }

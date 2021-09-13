@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sdcc.gpao.entity.DecoupageHoraire;
+import com.sdcc.gpao.exception.NoDuplicationException;
 import com.sdcc.gpao.exception.ResourceNotFoundException;
 import com.sdcc.gpao.service.DecoupageHoraireService;
 
@@ -34,7 +35,7 @@ public class DecoupageHoraireController {
 	}
 	
 	@PostMapping("/ajouter")
-	public ResponseEntity<DecoupageHoraire> ajouter(@RequestBody DecoupageHoraire t){
+	public ResponseEntity<DecoupageHoraire> ajouter(@RequestBody DecoupageHoraire t) throws NoDuplicationException{
 		return decoupageHoraireService.sauvegarder(t);
 	}
 	

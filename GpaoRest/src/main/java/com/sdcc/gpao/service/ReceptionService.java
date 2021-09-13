@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 
 import com.sdcc.gpao.entity.Reception;
+import com.sdcc.gpao.exception.NoDuplicationException;
 import com.sdcc.gpao.exception.ResourceNotFoundException;
 import com.sdcc.gpao.repository.IReceptionRepository;
 
@@ -39,7 +40,7 @@ public class ReceptionService implements IServiceDeBase<Reception> {
 	}
 
 	@Override
-	public ResponseEntity<Reception> sauvegarder(Reception t) {
+	public ResponseEntity<Reception> sauvegarder(Reception t) throws NoDuplicationException {
 		return new ResponseEntity<Reception>(receptionRepository.save(t), HttpStatus.CREATED);
 	}
 

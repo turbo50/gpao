@@ -9,7 +9,6 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -49,14 +48,13 @@ public class ActiviteNettoyageD implements Serializable {
     private String nettoyageaimant;
     @Column(name = "Autre")
     private String autre;
-    @Basic(optional = false)
     @Column(name = "Validated")
-    private boolean validated;
+    private Boolean validated;
     @JoinColumn(name = "Id_personnel", referencedColumnName = "Id_personnel")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Personnel idpersonnel;
     @JoinColumn(name = "Id_planning", referencedColumnName = "Id_planning")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private Planning idplanning;
 
     public ActiviteNettoyageD() {
@@ -64,11 +62,6 @@ public class ActiviteNettoyageD implements Serializable {
 
     public ActiviteNettoyageD(Integer idactivite) {
         this.idactivite = idactivite;
-    }
-
-    public ActiviteNettoyageD(Integer idactivite, boolean validated) {
-        this.idactivite = idactivite;
-        this.validated = validated;
     }
 
     public Integer getIdactivite() {
@@ -111,11 +104,11 @@ public class ActiviteNettoyageD implements Serializable {
         this.autre = autre;
     }
 
-    public boolean getValidated() {
+    public Boolean getValidated() {
         return validated;
     }
 
-    public void setValidated(boolean validated) {
+    public void setValidated(Boolean validated) {
         this.validated = validated;
     }
 

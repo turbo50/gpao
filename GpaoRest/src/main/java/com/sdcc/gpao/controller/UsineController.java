@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sdcc.gpao.entity.Usine;
+import com.sdcc.gpao.exception.NoDuplicationException;
 import com.sdcc.gpao.exception.ResourceNotFoundException;
 import com.sdcc.gpao.service.UsineService;
 
@@ -35,7 +36,7 @@ public class UsineController {
 	}
 	
 	@PostMapping("/ajouter")
-	public ResponseEntity<Usine> ajouter(@RequestBody Usine eg){
+	public ResponseEntity<Usine> ajouter(@RequestBody Usine eg) throws NoDuplicationException{
 		return UsineService.sauvegarder(eg);
 	}
 	

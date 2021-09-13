@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sdcc.gpao.entity.ActiviteNettoyageD;
+import com.sdcc.gpao.exception.NoDuplicationException;
 import com.sdcc.gpao.exception.ResourceNotFoundException;
 import com.sdcc.gpao.service.ActiviteNettoyageDService;
 
@@ -56,22 +57,23 @@ public class ActiviteNettoyageDController {
 	
 	@PostMapping("/ajouter")
 	@ApiOperation(value = "Ajoute une occurence des activités de l'atelier nettoyage décorticage", response = ActiviteNettoyageD.class)
-	@ApiResponses(value = {@ApiResponse(code = 201, message = "Les données de l'activités ont été ajouté avec succès")})
-	public ResponseEntity<ActiviteNettoyageD> ajouter(@RequestBody ActiviteNettoyageD t){
+	@ApiResponses(value = {@ApiResponse(code = 201, message = "Les données de l'activités ont été ajoutées avec succès"),
+			@ApiResponse(code = 302, message = "Les données de l'activité ont déjà été saisies pour cette période")})
+	public ResponseEntity<ActiviteNettoyageD> ajouter(@RequestBody ActiviteNettoyageD t) throws NoDuplicationException{
 		return activiteNettoyageDService.sauvegarder(t);
 	}
 	
 	@PutMapping("/modifier")
 	@ApiOperation(value = "Modifie une occurence des activités de l'atelier nettoyage décorticage", response = ActiviteNettoyageD.class)
-	@ApiResponses(value = {@ApiResponse(code = 200, message = "Les données de l'activités ont été modifié avec succès"),
+	@ApiResponses(value = {@ApiResponse(code = 200, message = "Les données de l'activités ont été modifiées avec succès"),
 			@ApiResponse(code = 404, message = "L'activité ayant l'ID demandé n'existe pas")})
 	public ResponseEntity<ActiviteNettoyageD> modifier(@RequestBody ActiviteNettoyageD t) throws ResourceNotFoundException{
 		return activiteNettoyageDService.modifier(t);
 	}
 	
 	@DeleteMapping("/supprimer")
-	@ApiOperation(value = "Supprime une occurence des activités de l'atelier nettoyage décorticage", response = ActiviteNettoyageD.class)
-	@ApiResponses(value = {@ApiResponse(code = 200, message = "Les données de l'activités ont été supprimé avec succès"),
+	@ApiOperation(value = "Supprime une occurence des activités de l'atelier nettoyage décorticage")
+	@ApiResponses(value = {@ApiResponse(code = 200, message = "Les données de l'activités ont été supprimées avec succès"),
 			@ApiResponse(code = 404, message = "L'activité ayant l'ID demandé n'existe pas")})
 	public void supprimer(@RequestBody ActiviteNettoyageD t) throws ResourceNotFoundException{
 		activiteNettoyageDService.supprimer(t);

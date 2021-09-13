@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sdcc.gpao.entity.NettoyageD;
+import com.sdcc.gpao.exception.NoDuplicationException;
 import com.sdcc.gpao.exception.ResourceNotFoundException;
 import com.sdcc.gpao.service.NettoyageDService;
 
@@ -41,7 +42,7 @@ public class NettoyageDController {
 	}
 	
 	@PostMapping("/ajouter")
-	public ResponseEntity<NettoyageD> ajouter(@RequestBody NettoyageD t){
+	public ResponseEntity<NettoyageD> ajouter(@RequestBody NettoyageD t) throws NoDuplicationException{
 		return nettoyageDService.sauvegarder(t);
 	}
 	

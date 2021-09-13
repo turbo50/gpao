@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.sdcc.gpao.entity.Chauffeur;
+import com.sdcc.gpao.exception.NoDuplicationException;
 import com.sdcc.gpao.exception.ResourceNotFoundException;
 import com.sdcc.gpao.repository.IChauffeurRepository;
 
@@ -38,7 +39,7 @@ public class ChauffeurService implements IServiceDeBase<Chauffeur> {
 	}
 
 	@Override
-	public ResponseEntity<Chauffeur> sauvegarder(Chauffeur t) {
+	public ResponseEntity<Chauffeur> sauvegarder(Chauffeur t) throws NoDuplicationException{
 		return new ResponseEntity<Chauffeur>(chauffeurRepository.save(t), HttpStatus.CREATED);
 	}
 

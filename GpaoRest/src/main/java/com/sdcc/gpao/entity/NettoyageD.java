@@ -44,9 +44,8 @@ public class NettoyageD implements Serializable {
     @Basic(optional = false)
     @Column(name = "Index_bande_final")
     private long indexbandefinal;
-    @Basic(optional = false)
     @Column(name = "Validated")
-    private boolean validated;
+    private Boolean validated;
     @JoinColumn(name = "Id_personnel", referencedColumnName = "Id_personnel")
     @ManyToOne
     private Personnel idpersonnel;
@@ -61,11 +60,10 @@ public class NettoyageD implements Serializable {
         this.idnettoyaged = idnettoyaged;
     }
 
-    public NettoyageD(Integer idnettoyaged, long indexbandeinit, long indexbandefinal, boolean validated) {
+    public NettoyageD(Integer idnettoyaged, long indexbandeinit, long indexbandefinal) {
         this.idnettoyaged = idnettoyaged;
         this.indexbandeinit = indexbandeinit;
         this.indexbandefinal = indexbandefinal;
-        this.validated = validated;
     }
 
     public Integer getIdnettoyaged() {
@@ -92,11 +90,11 @@ public class NettoyageD implements Serializable {
         this.indexbandefinal = indexbandefinal;
     }
 
-    public boolean getValidated() {
+    public Boolean getValidated() {
         return validated;
     }
 
-    public void setValidated(boolean validated) {
+    public void setValidated(Boolean validated) {
         this.validated = validated;
     }
 

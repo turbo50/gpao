@@ -11,7 +11,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -42,11 +41,14 @@ public class Quart implements Serializable {
     private Integer idquart;
     @Column(name = "Nom_quart")
     private String nomquart;
-    @OneToMany(mappedBy = "idquart", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "idquart")
+    @JsonIgnore
     private Collection<Personnel> personnelCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idquart", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idquart")
+    @JsonIgnore
     private Collection<Planning> planningCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idquart", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idquart")
+    @JsonIgnore
     private Collection<ParamPlanning> paramPlanningCollection;
 
     public Quart() {
@@ -72,7 +74,6 @@ public class Quart implements Serializable {
         this.nomquart = nomquart;
     }
 
-    @JsonIgnore
     public Collection<Personnel> getPersonnelCollection() {
         return personnelCollection;
     }
@@ -81,7 +82,6 @@ public class Quart implements Serializable {
         this.personnelCollection = personnelCollection;
     }
 
-    @JsonIgnore
     public Collection<Planning> getPlanningCollection() {
         return planningCollection;
     }
@@ -90,7 +90,6 @@ public class Quart implements Serializable {
         this.planningCollection = planningCollection;
     }
 
-    @JsonIgnore
     public Collection<ParamPlanning> getParamPlanningCollection() {
         return paramPlanningCollection;
     }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sdcc.gpao.entity.Horaire;
 import com.sdcc.gpao.entity.ParamPlanning;
 import com.sdcc.gpao.entity.Quart;
+import com.sdcc.gpao.exception.NoDuplicationException;
 import com.sdcc.gpao.service.ParamPlanningService;
 
 @RestController
@@ -42,7 +43,7 @@ public class ParamPlanningController {
 	}
 	
 	@PostMapping("/ajouter")
-	public ResponseEntity<ParamPlanning> ajouter(@RequestBody ParamPlanning p){
+	public ResponseEntity<ParamPlanning> ajouter(@RequestBody ParamPlanning p) throws NoDuplicationException{
 		return paramPlanningService.sauvegarder(p);
 	}
 }

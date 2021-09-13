@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sdcc.gpao.entity.ParamNettoyageD;
+import com.sdcc.gpao.exception.NoDuplicationException;
 import com.sdcc.gpao.exception.ResourceNotFoundException;
 import com.sdcc.gpao.service.ParamNettoyageDService;
 
@@ -41,7 +42,7 @@ public class ParamNettoyageDController {
 	}
 	
 	@PostMapping("/ajouter")
-	public ResponseEntity<ParamNettoyageD> ajouter(@RequestBody ParamNettoyageD t){
+	public ResponseEntity<ParamNettoyageD> ajouter(@RequestBody ParamNettoyageD t) throws NoDuplicationException{
 		return paramNettoyageDService.sauvegarder(t);
 	}
 	

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.sdcc.gpao.entity.Quart;
+import com.sdcc.gpao.exception.NoDuplicationException;
 import com.sdcc.gpao.exception.ResourceNotFoundException;
 import com.sdcc.gpao.repository.IQuartRepository;
 
@@ -39,7 +40,7 @@ public class QuartService implements IServiceDeBase<Quart> {
 	}
 
 	@Override
-	public ResponseEntity<Quart> sauvegarder(Quart t) {
+	public ResponseEntity<Quart> sauvegarder(Quart t) throws NoDuplicationException{
 		return new ResponseEntity<Quart>(quartRepository.save(t), HttpStatus.CREATED);
 	}
 

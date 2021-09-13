@@ -9,7 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.sdcc.gpao.entity.ActiviteNettoyageD;
 import com.sdcc.gpao.entity.ParamNettoyageD;
+import com.sdcc.gpao.exception.NoDuplicationException;
 import com.sdcc.gpao.exception.ResourceNotFoundException;
 import com.sdcc.gpao.repository.IParamNettoyageDRepository;
 
@@ -40,8 +42,15 @@ public class ParamNettoyageDService implements IServiceDeBase<ParamNettoyageD> {
 	}
 
 	@Override
-	public ResponseEntity<ParamNettoyageD> sauvegarder(ParamNettoyageD t) {
-		return new ResponseEntity<ParamNettoyageD>(paramNettoyageDRepository.save(t), HttpStatus.CREATED);
+	public ResponseEntity<ParamNettoyageD> sauvegarder(ParamNettoyageD t) throws NoDuplicationException {
+		//On évite d'ajouter 2 fois les données pour un même quart
+		Optional<ParamNettoyageD> us = paramNettoyageDRepository.findByIdplanning(t.getIdplanning());
+		if(us.isPresent()) {
+			throw new NoDuplicationException("Les données ont déjà été saisies. Planning(ID, date, heure) : (" + t.getIdplanning().getIdplanning() + 
+					            ", " + t.getIdplanning().getDateplanning() + ", " + t.getIdplanning().getIdhoraire() + ")");
+		}else {
+			return new ResponseEntity<ParamNettoyageD>(paramNettoyageDRepository.save(t), HttpStatus.CREATED);
+		}
 	}
 
 	@Override

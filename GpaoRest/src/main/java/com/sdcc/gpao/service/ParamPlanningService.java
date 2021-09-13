@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.sdcc.gpao.entity.Horaire;
 import com.sdcc.gpao.entity.ParamPlanning;
 import com.sdcc.gpao.entity.Quart;
+import com.sdcc.gpao.exception.NoDuplicationException;
 import com.sdcc.gpao.exception.ResourceNotFoundException;
 import com.sdcc.gpao.repository.IParamPlanningRepository;
 
@@ -45,7 +46,7 @@ public class ParamPlanningService implements IServiceDeBase<ParamPlanning> {
 	}
 
 	@Override
-	public ResponseEntity<ParamPlanning> sauvegarder(ParamPlanning t) {
+	public ResponseEntity<ParamPlanning> sauvegarder(ParamPlanning t) throws NoDuplicationException{
 		return new ResponseEntity<ParamPlanning>(paramPlanningRepository.save(t), HttpStatus.CREATED);
 	}
 

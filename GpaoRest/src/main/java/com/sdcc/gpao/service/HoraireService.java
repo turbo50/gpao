@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.sdcc.gpao.entity.Horaire;
+import com.sdcc.gpao.exception.NoDuplicationException;
 import com.sdcc.gpao.exception.ResourceNotFoundException;
 import com.sdcc.gpao.repository.IHoraireRepository;
 
@@ -43,7 +44,7 @@ public class HoraireService implements IServiceDeBase<Horaire> {
 	}
 
 	@Override
-	public ResponseEntity<Horaire> sauvegarder(Horaire t) {
+	public ResponseEntity<Horaire> sauvegarder(Horaire t) throws NoDuplicationException{
 		return new ResponseEntity<Horaire>(horaireRepository.save(t), HttpStatus.CREATED);
 	}
 

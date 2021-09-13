@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.sdcc.gpao.entity.AnalyseNettPressPell;
+import com.sdcc.gpao.entity.Planning;
+import com.sdcc.gpao.exception.NoDuplicationException;
 import com.sdcc.gpao.exception.ResourceNotFoundException;
 import com.sdcc.gpao.repository.IAnalyseNettPressPellRepository;
 
@@ -41,8 +43,15 @@ public class AnalyseNettPressPellService implements IServiceDeBase<AnalyseNettPr
 	}
 
 	@Override
-	public ResponseEntity<AnalyseNettPressPell> sauvegarder(AnalyseNettPressPell t) {
-		return new ResponseEntity<AnalyseNettPressPell>(analyseNettPressPellRepository.save(t), HttpStatus.CREATED);
+	public ResponseEntity<AnalyseNettPressPell> sauvegarder(AnalyseNettPressPell t) throws NoDuplicationException {
+		//On évite d'ajouter 2 fois les données pour un même quart
+		Optional<AnalyseNettPressPell> us = analyseNettPressPellRepository.findByIdplanning(t.getIdplanning());
+		if(us.isPresent()) {
+			throw new NoDuplicationException("Les données ont déjà été saisies. Planning(ID, date, heure) : (" + t.getIdplanning().getIdplanning() + 
+					            ", " + t.getIdplanning().getDateplanning() + ", " + t.getIdplanning().getIdhoraire() + ")");
+		}else {
+			return new ResponseEntity<AnalyseNettPressPell>(analyseNettPressPellRepository.save(t), HttpStatus.CREATED);
+		}
 	}
 
 	@Override

@@ -6,13 +6,12 @@
 package com.sdcc.gpao.entity;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,9 +21,10 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  *
@@ -39,28 +39,29 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
     @NamedQuery(name = "Planning.findByStatut", query = "SELECT p FROM Planning p WHERE p.statut = :statut")})
 public class Planning implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idplanning")
+    private Collection<AnalyseNettPressPell> analyseNettPressPellCollection;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "Id_planning")
     private Integer idplanning;
+    @Basic(optional = false)
     @Column(name = "Date_planning")
-    //@Temporal(TemporalType.DATE)
-    private LocalDate dateplanning;
+    @Temporal(TemporalType.DATE)
+    private Date dateplanning;
     @Column(name = "Statut")
     private String statut;
-    //@JsonIgnoreProperties("idplanning")
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idplanning", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idplanning")
+    @JsonIgnore
     private Collection<ActiviteNettoyageD> activiteNettoyageDCollection;
-   // @JsonIgnoreProperties("idplanning")
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idplanning", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idplanning")
+    @JsonIgnore
     private Collection<ParamNettoyageD> paramNettoyageDCollection;
-   // @JsonIgnoreProperties("idplanning")
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idplanning", fetch = FetchType.LAZY)
-    private Collection<AnalyseNettPressPell> analyseNettPressPellCollection;
-   // @JsonIgnoreProperties("idplanning")
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idplanning", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idplanning")
+    @JsonIgnore
     private Collection<NettoyageD> nettoyageDCollection;
     @JoinColumn(name = "Id_horaire", referencedColumnName = "Id_horaire")
     @ManyToOne(optional = false)
@@ -76,6 +77,11 @@ public class Planning implements Serializable {
         this.idplanning = idplanning;
     }
 
+    public Planning(Integer idplanning, Date dateplanning) {
+        this.idplanning = idplanning;
+        this.dateplanning = dateplanning;
+    }
+
     public Integer getIdplanning() {
         return idplanning;
     }
@@ -84,11 +90,11 @@ public class Planning implements Serializable {
         this.idplanning = idplanning;
     }
 
-    public LocalDate getDateplanning() {
+    public Date getDateplanning() {
         return dateplanning;
     }
 
-    public void setDateplanning(LocalDate dateplanning) {
+    public void setDateplanning(Date dateplanning) {
         this.dateplanning = dateplanning;
     }
 
@@ -100,7 +106,6 @@ public class Planning implements Serializable {
         this.statut = statut;
     }
 
-    @JsonIgnore
     public Collection<ActiviteNettoyageD> getActiviteNettoyageDCollection() {
         return activiteNettoyageDCollection;
     }
@@ -109,7 +114,6 @@ public class Planning implements Serializable {
         this.activiteNettoyageDCollection = activiteNettoyageDCollection;
     }
 
-    @JsonIgnore
     public Collection<ParamNettoyageD> getParamNettoyageDCollection() {
         return paramNettoyageDCollection;
     }
@@ -118,16 +122,6 @@ public class Planning implements Serializable {
         this.paramNettoyageDCollection = paramNettoyageDCollection;
     }
 
-    @JsonIgnore
-    public Collection<AnalyseNettPressPell> getAnalyseNettPressPellCollection() {
-        return analyseNettPressPellCollection;
-    }
-
-    public void setAnalyseNettPressPellCollection(Collection<AnalyseNettPressPell> analyseNettPressPellCollection) {
-        this.analyseNettPressPellCollection = analyseNettPressPellCollection;
-    }
-
-    @JsonIgnore
     public Collection<NettoyageD> getNettoyageDCollection() {
         return nettoyageDCollection;
     }
@@ -175,6 +169,14 @@ public class Planning implements Serializable {
     @Override
     public String toString() {
         return "com.sdcc.gpao.entity.Planning[ idplanning=" + idplanning + " ]";
+    }
+
+    public Collection<AnalyseNettPressPell> getAnalyseNettPressPellCollection() {
+        return analyseNettPressPellCollection;
+    }
+
+    public void setAnalyseNettPressPellCollection(Collection<AnalyseNettPressPell> analyseNettPressPellCollection) {
+        this.analyseNettPressPellCollection = analyseNettPressPellCollection;
     }
     
 }

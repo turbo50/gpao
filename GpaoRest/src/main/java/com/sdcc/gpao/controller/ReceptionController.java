@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sdcc.gpao.entity.Reception;
+import com.sdcc.gpao.exception.NoDuplicationException;
 import com.sdcc.gpao.exception.ResourceNotFoundException;
 import com.sdcc.gpao.service.ReceptionService;
 
@@ -36,7 +37,7 @@ public class ReceptionController {
 	}
 	
 	@PostMapping("/ajouter")
-	public ResponseEntity<Reception> ajouter(@RequestBody Reception eg){
+	public ResponseEntity<Reception> ajouter(@RequestBody Reception eg) throws NoDuplicationException{
 		return receptionService.sauvegarder(eg);
 	}
 	

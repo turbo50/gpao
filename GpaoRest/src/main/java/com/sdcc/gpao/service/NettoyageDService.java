@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.sdcc.gpao.entity.NettoyageD;
+import com.sdcc.gpao.entity.ParamNettoyageD;
+import com.sdcc.gpao.exception.NoDuplicationException;
 import com.sdcc.gpao.exception.ResourceNotFoundException;
 import com.sdcc.gpao.repository.INettoyageDRepository;
 
@@ -41,8 +43,15 @@ public class NettoyageDService implements IServiceDeBase<NettoyageD> {
 	}
 
 	@Override
-	public ResponseEntity<NettoyageD> sauvegarder(NettoyageD t) {
-		return new ResponseEntity<NettoyageD>(nettoyageDRepository.save(t), HttpStatus.CREATED);
+	public ResponseEntity<NettoyageD> sauvegarder(NettoyageD t) throws NoDuplicationException{
+		//On évite d'ajouter 2 fois les données pour un même quart
+				Optional<NettoyageD> us = nettoyageDRepository.findByIdplanning(t.getIdplanning());
+				if(us.isPresent()) {
+					throw new NoDuplicationException("Les données ont déjà été saisies. Planning(ID, date, heure) : (" + t.getIdplanning().getIdplanning() + 
+							            ", " + t.getIdplanning().getDateplanning() + ", " + t.getIdplanning().getIdhoraire() + ")");
+				}else {
+					return new ResponseEntity<NettoyageD>(nettoyageDRepository.save(t), HttpStatus.CREATED);
+				}
 	}
 
 	@Override

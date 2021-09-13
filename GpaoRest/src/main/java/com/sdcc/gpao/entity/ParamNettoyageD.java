@@ -9,7 +9,6 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -61,17 +60,16 @@ public class ParamNettoyageD implements Serializable {
     @Basic(optional = false)
     @Column(name = "Index_var_alim_1342")
     private float indexvaralim1342;
-    @Basic(optional = false)
     @Column(name = "Validated")
-    private boolean validated;
-    @JoinColumn(name = "Id_horaire", referencedColumnName = "Id_horaire")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Horaire idhoraire;
+    private Boolean validated;
+    @JoinColumn(name = "Id_decoupage", referencedColumnName = "Id_decoupage")
+    @ManyToOne(optional = false)
+    private DecoupageHoraire iddecoupage;
     @JoinColumn(name = "Id_personnel", referencedColumnName = "Id_personnel")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Personnel idpersonnel;
     @JoinColumn(name = "Id_planning", referencedColumnName = "Id_planning")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private Planning idplanning;
 
     public ParamNettoyageD() {
@@ -81,7 +79,7 @@ public class ParamNettoyageD implements Serializable {
         this.idparamnettoyaged = idparamnettoyaged;
     }
 
-    public ParamNettoyageD(Integer idparamnettoyaged, float indexvarvis1025A, float indexvarvis1025B, float bandepeseuse, float indexvaralim1340, float indexvaralim1341, float indexvaralim1342, boolean validated) {
+    public ParamNettoyageD(Integer idparamnettoyaged, float indexvarvis1025A, float indexvarvis1025B, float bandepeseuse, float indexvaralim1340, float indexvaralim1341, float indexvaralim1342) {
         this.idparamnettoyaged = idparamnettoyaged;
         this.indexvarvis1025A = indexvarvis1025A;
         this.indexvarvis1025B = indexvarvis1025B;
@@ -89,7 +87,6 @@ public class ParamNettoyageD implements Serializable {
         this.indexvaralim1340 = indexvaralim1340;
         this.indexvaralim1341 = indexvaralim1341;
         this.indexvaralim1342 = indexvaralim1342;
-        this.validated = validated;
     }
 
     public Integer getIdparamnettoyaged() {
@@ -148,20 +145,20 @@ public class ParamNettoyageD implements Serializable {
         this.indexvaralim1342 = indexvaralim1342;
     }
 
-    public boolean getValidated() {
+    public Boolean getValidated() {
         return validated;
     }
 
-    public void setValidated(boolean validated) {
+    public void setValidated(Boolean validated) {
         this.validated = validated;
     }
 
-    public Horaire getIdhoraire() {
-        return idhoraire;
+    public DecoupageHoraire getIddecoupage() {
+        return iddecoupage;
     }
 
-    public void setIdhoraire(Horaire idhoraire) {
-        this.idhoraire = idhoraire;
+    public void setIddecoupage(DecoupageHoraire iddecoupage) {
+        this.iddecoupage = iddecoupage;
     }
 
     public Personnel getIdpersonnel() {

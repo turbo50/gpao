@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sdcc.gpao.entity.Quart;
+import com.sdcc.gpao.exception.NoDuplicationException;
 import com.sdcc.gpao.exception.ResourceNotFoundException;
 import com.sdcc.gpao.service.QuartService;
 
@@ -35,7 +36,7 @@ public class QuartController {
 	}
 	
 	@PostMapping("/ajouter")
-	public ResponseEntity<Quart> ajouter(@RequestBody Quart eg){
+	public ResponseEntity<Quart> ajouter(@RequestBody Quart eg) throws NoDuplicationException{
 		return quartService.sauvegarder(eg);
 	}
 	

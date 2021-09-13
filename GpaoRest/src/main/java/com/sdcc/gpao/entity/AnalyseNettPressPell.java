@@ -9,7 +9,6 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,6 +27,7 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "AnalyseNettPressPell.findAll", query = "SELECT a FROM AnalyseNettPressPell a"),
     @NamedQuery(name = "AnalyseNettPressPell.findByIdanalyse", query = "SELECT a FROM AnalyseNettPressPell a WHERE a.idanalyse = :idanalyse"),
+    @NamedQuery(name = "AnalyseNettPressPell.findByIdpersonnel", query = "SELECT a FROM AnalyseNettPressPell a WHERE a.idpersonnel = :idpersonnel"),
     @NamedQuery(name = "AnalyseNettPressPell.findByGrmg", query = "SELECT a FROM AnalyseNettPressPell a WHERE a.grmg = :grmg"),
     @NamedQuery(name = "AnalyseNettPressPell.findByGrh2o", query = "SELECT a FROM AnalyseNettPressPell a WHERE a.grh2o = :grh2o"),
     @NamedQuery(name = "AnalyseNettPressPell.findByGrca", query = "SELECT a FROM AnalyseNettPressPell a WHERE a.grca = :grca"),
@@ -53,6 +53,8 @@ public class AnalyseNettPressPell implements Serializable {
     @Basic(optional = false)
     @Column(name = "Id_analyse")
     private Integer idanalyse;
+    @Column(name = "Id_personnel")
+    private Integer idpersonnel;
     @Basic(optional = false)
     @Column(name = "Gr_mg")
     private float grmg;
@@ -104,11 +106,8 @@ public class AnalyseNettPressPell implements Serializable {
     @Basic(optional = false)
     @Column(name = "Pellet")
     private float pellet;
-    @JoinColumn(name = "Id_personnel", referencedColumnName = "Id_personnel")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Personnel idpersonnel;
     @JoinColumn(name = "Id_planning", referencedColumnName = "Id_planning")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private Planning idplanning;
 
     public AnalyseNettPressPell() {
@@ -145,6 +144,14 @@ public class AnalyseNettPressPell implements Serializable {
 
     public void setIdanalyse(Integer idanalyse) {
         this.idanalyse = idanalyse;
+    }
+
+    public Integer getIdpersonnel() {
+        return idpersonnel;
+    }
+
+    public void setIdpersonnel(Integer idpersonnel) {
+        this.idpersonnel = idpersonnel;
     }
 
     public float getGrmg() {
@@ -281,14 +288,6 @@ public class AnalyseNettPressPell implements Serializable {
 
     public void setPellet(float pellet) {
         this.pellet = pellet;
-    }
-
-    public Personnel getIdpersonnel() {
-        return idpersonnel;
-    }
-
-    public void setIdpersonnel(Personnel idpersonnel) {
-        this.idpersonnel = idpersonnel;
     }
 
     public Planning getIdplanning() {

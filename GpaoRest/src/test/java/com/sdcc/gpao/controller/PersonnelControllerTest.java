@@ -34,6 +34,7 @@ import static org.mockito.ArgumentMatchers.any;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sdcc.gpao.entity.Personnel;
+import com.sdcc.gpao.exception.NoDuplicationException;
 import com.sdcc.gpao.exception.ResourceNotFoundException;
 import com.sdcc.gpao.service.PersonnelService;
 
@@ -52,7 +53,7 @@ public class PersonnelControllerTest {
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Before
-	public void Setup() throws ResourceNotFoundException {
+	public void Setup() throws ResourceNotFoundException, NoDuplicationException {
 		personnel = new Personnel();
 		personnel.setIdpersonnel(1);
 		personnel.setMatricule("Mat001");

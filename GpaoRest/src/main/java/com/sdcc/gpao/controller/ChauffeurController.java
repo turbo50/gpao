@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sdcc.gpao.entity.Chauffeur;
+import com.sdcc.gpao.exception.NoDuplicationException;
 import com.sdcc.gpao.exception.ResourceNotFoundException;
 import com.sdcc.gpao.service.ChauffeurService;
 
@@ -36,7 +37,7 @@ public class ChauffeurController {
 	}
 	
 	@PostMapping("/ajouter")
-	public ResponseEntity<Chauffeur> ajouter(@RequestBody Chauffeur eg){
+	public ResponseEntity<Chauffeur> ajouter(@RequestBody Chauffeur eg) throws NoDuplicationException{
 		return chauffeurService.sauvegarder(eg);
 	}
 	
