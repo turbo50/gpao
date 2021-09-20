@@ -1,9 +1,11 @@
 package com.sdcc.gpao.controller;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,15 +18,16 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sdcc.gpao.entity.Chauffeur;
 import com.sdcc.gpao.exception.NoDuplicationException;
 import com.sdcc.gpao.exception.ResourceNotFoundException;
+import com.sdcc.gpao.security.WhiteList;
 import com.sdcc.gpao.service.ChauffeurService;
 
 @RestController
 @RequestMapping("/api/chauffeur/")
 public class ChauffeurController {
-
 	@Autowired
 	private ChauffeurService chauffeurService;
 	
+	@Secured(value = {"ROLE_ADMIN"})
 	@GetMapping("/liste")
 	public ResponseEntity<Collection<Chauffeur>> getListe(){
 		return chauffeurService.getListe();

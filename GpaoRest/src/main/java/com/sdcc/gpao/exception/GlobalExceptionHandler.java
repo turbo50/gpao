@@ -44,23 +44,21 @@ public class GlobalExceptionHandler {
    * @return the response entity
    */
   @ExceptionHandler(ResourceNotFoundException.class)
-  public ResponseEntity<?> resourceNotFoundException(
-      ResourceNotFoundException ex, WebRequest request) {
+  public ResponseEntity<?> resourceNotFoundException(ResourceNotFoundException ex, WebRequest request) {
     ErrorResponse errorDetails =
         new ErrorResponse(new Date(), HttpStatus.NOT_FOUND.toString(), ex.getMessage(), request.getDescription(false));
     return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
   }
   
   @ExceptionHandler(NoDuplicationException.class)
-  public ResponseEntity<?> duplicationException(
-      ResourceNotFoundException ex, WebRequest request) {
+  public ResponseEntity<?> duplicationException(NoDuplicationException ex, WebRequest request) {
     ErrorResponse errorDetails =
         new ErrorResponse(new Date(), HttpStatus.FOUND.toString(), ex.getMessage(), request.getDescription(false));
     return new ResponseEntity<>(errorDetails, HttpStatus.FOUND);
   }
   
   /**
-   * Globle excpetion handler response entity.
+   * Global exception handler response entity.
    *
    * @param ex the ex
    * @param request the request
