@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sdcc.gpao.entity.Chauffeur;
 import com.sdcc.gpao.exception.NoDuplicationException;
 import com.sdcc.gpao.exception.ResourceNotFoundException;
+import com.sdcc.gpao.projection.IChauffeurDTO;
 import com.sdcc.gpao.security.WhiteList;
 import com.sdcc.gpao.service.ChauffeurService;
 
@@ -31,6 +32,11 @@ public class ChauffeurController {
 	@GetMapping("/liste")
 	public ResponseEntity<Collection<Chauffeur>> getListe(){
 		return chauffeurService.getListe();
+	}
+	
+	@GetMapping("/liste/nom")
+	public ResponseEntity<Collection<IChauffeurDTO>> getListeNom(){
+		return chauffeurService.getListeByNom();
 	}
 	
 	@GetMapping("/liste/{id}") 

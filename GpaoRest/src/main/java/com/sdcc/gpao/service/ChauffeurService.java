@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.sdcc.gpao.entity.Chauffeur;
 import com.sdcc.gpao.exception.NoDuplicationException;
 import com.sdcc.gpao.exception.ResourceNotFoundException;
+import com.sdcc.gpao.projection.IChauffeurDTO;
 import com.sdcc.gpao.repository.IChauffeurRepository;
 
 @Service
@@ -61,5 +62,10 @@ public class ChauffeurService implements IServiceDeBase<Chauffeur> {
 		}else {
 			throw new ResourceNotFoundException("Chauffeur introuvable : " + t.getIdchauffeur());
 		}
+	}
+	
+	
+	public ResponseEntity<Collection<IChauffeurDTO>> getListeByNom() {
+		return  new ResponseEntity<Collection<IChauffeurDTO>>(chauffeurRepository.findAllProjectedBy(IChauffeurDTO.class), HttpStatus.FOUND);
 	}
 }
