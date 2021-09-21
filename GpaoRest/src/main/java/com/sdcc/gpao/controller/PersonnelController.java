@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sdcc.gpao.entity.Personnel;
 import com.sdcc.gpao.exception.NoDuplicationException;
 import com.sdcc.gpao.exception.ResourceNotFoundException;
+import com.sdcc.gpao.projection.PersonnelDTO;
 import com.sdcc.gpao.service.PersonnelService;
 
 /**
@@ -35,6 +36,11 @@ public class PersonnelController {
 	@GetMapping("/liste")
 	public ResponseEntity<Collection<Personnel>> getListe(){
 		return PersonnelService.getListe();
+	}
+	
+	@GetMapping("/liste/nom/matricule")
+	public ResponseEntity<Collection<PersonnelDTO>> getListeNomMatricule(){
+		return PersonnelService.getListePersonnelDTO();
 	}
 	
 	@GetMapping("/liste/{id}")

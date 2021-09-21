@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.sdcc.gpao.entity.Personnel;
 import com.sdcc.gpao.exception.NoDuplicationException;
 import com.sdcc.gpao.exception.ResourceNotFoundException;
+import com.sdcc.gpao.projection.PersonnelDTO;
 import com.sdcc.gpao.repository.IPersonnelRepository;
 
 @Service
@@ -66,6 +67,8 @@ public class PersonnelService implements IServiceDeBase<Personnel> {
 		}
 	}
 	
-	
+	public ResponseEntity<Collection<PersonnelDTO>> getListePersonnelDTO() {
+		return  new ResponseEntity<Collection<PersonnelDTO>>(personnelRepository.findAllPersonnel(), HttpStatus.FOUND);
+	}
 	
 }
