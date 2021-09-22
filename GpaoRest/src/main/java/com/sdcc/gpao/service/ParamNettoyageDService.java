@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.sdcc.gpao.entity.ActiviteNettoyageD;
 import com.sdcc.gpao.entity.ParamNettoyageD;
 import com.sdcc.gpao.exception.NoDuplicationException;
 import com.sdcc.gpao.exception.ResourceNotFoundException;

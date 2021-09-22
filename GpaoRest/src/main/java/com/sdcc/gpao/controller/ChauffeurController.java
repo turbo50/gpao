@@ -1,6 +1,6 @@
 package com.sdcc.gpao.controller;
 
-import java.util.Arrays;
+
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,6 @@ import com.sdcc.gpao.entity.Chauffeur;
 import com.sdcc.gpao.exception.NoDuplicationException;
 import com.sdcc.gpao.exception.ResourceNotFoundException;
 import com.sdcc.gpao.projection.IChauffeurDTO;
-import com.sdcc.gpao.security.WhiteList;
 import com.sdcc.gpao.service.ChauffeurService;
 
 @RestController

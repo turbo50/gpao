@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sdcc.gpao.entity.ActiviteNettoyageD;
 import com.sdcc.gpao.entity.AnalyseNettPressPell;
 import com.sdcc.gpao.exception.NoDuplicationException;
 import com.sdcc.gpao.exception.ResourceNotFoundException;

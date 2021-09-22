@@ -35,7 +35,7 @@ public class ChauffeurService implements IServiceDeBase<Chauffeur> {
 	
 
 	@Override
-	public ResponseEntity<Collection<Chauffeur>> getListe() {
+	public ResponseEntity<Collection<Chauffeur>> getListe(){
 		return  new ResponseEntity<Collection<Chauffeur>>(chauffeurRepository.findAll(), HttpStatus.FOUND);
 	}
 

@@ -29,14 +29,38 @@ public class TestSecurity {
 	private MockMvc mvc;
 
 	@Test
-	public void testcase1() throws Exception{
+	public void testUnauthorized() throws Exception{
 	    MockMvcBuilders.webAppContextSetup(this.context)
 	                        .apply(SecurityMockMvcConfigurers.springSecurity())
 	                        .build();
-	    final MvcResult mvcResult = this.mvc
+	    				this.mvc
 	                    .perform(get("/api/chauffeur/liste").with(httpBasic("usine","usi")))
 	                    .andDo(print())
-	                    .andExpect(status().isOk())
+	                    .andExpect(status().isUnauthorized())
+	                    .andReturn();
+	}
+	
+	@Test
+	public void testForbiden() throws Exception{
+	    MockMvcBuilders.webAppContextSetup(this.context)
+	                        .apply(SecurityMockMvcConfigurers.springSecurity())
+	                        .build();
+	    				this.mvc
+	                    .perform(get("/api/chauffeur/liste").with(httpBasic("prod","prod")))
+	                    .andDo(print())
+	                    .andExpect(status().isForbidden())
+	                    .andReturn();
+	}
+	
+	@Test
+	public void testGranted() throws Exception{
+	    MockMvcBuilders.webAppContextSetup(this.context)
+	                        .apply(SecurityMockMvcConfigurers.springSecurity())
+	                        .build();
+	    				this.mvc
+	                    .perform(get("/api/chauffeur/liste").with(httpBasic("usine","usine")))
+	                    .andDo(print())
+	                    .andExpect(status().isFound())
 	                    .andReturn();
 	}
 }
